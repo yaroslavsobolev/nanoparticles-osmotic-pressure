@@ -4,10 +4,8 @@ Created on Sat Jun 10 00:17:44 2017
 
 @author: Yaroslav I. Sobolev
 """
-
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm 
 from scipy import optimize
 
 charge_density = 4.7 # ligands per nm^2
@@ -39,8 +37,6 @@ def renormed_charge(R_ws, a, kappa):
     sol = optimize.root(fun, kappa, method='hybr')
     if not sol.success:
         print('fail')
-    # print('kappa:{0:.2e}'.format(kappa))
-    # print('kappa_star:{0:.2e}'.format(sol.x[0]))
     kappa_star = sol.x[0]
     gamma_0 = np.sqrt(1 - (kappa / kappa_star) ** 4)
     f_plus = ((kappa_star * R_ws + 1) / (2 * kappa_star)) * np.exp(-1 * kappa_star * R_ws)
@@ -78,7 +74,6 @@ def get_pressure(eta, c_s, renorm_osmotic = True):
         # Qsat = a/Bjerr_len*17
         print('Qsat:{0}'.format(Qsat))
 
-
         # reduced potential at the edge of Wigner-Seitz cell
         phi_Rws = Qsat*Bjerr_len*np.exp((a-Rws)/deb_len)/Rws/(1 + a*kappa)
         if do_donnan:
@@ -93,60 +88,26 @@ def get_pressure(eta, c_s, renorm_osmotic = True):
         print('Z_eff:{0}'.format(z_eff))
     return P
 
-#get_pressure(eta, c_s)
-
 xs = np.linspace(0.001, 0.9, num=100)
-# ys = np.array([get_pressure(x, 0.01*1000) for x in xs])
 fig, (ax, ax2) = plt.subplots(2, sharex=True, sharey=False, figsize=(5,5),
                               gridspec_kw=dict(height_ratios=(5,2)))
 fig.subplots_adjust(hspace=0.05)
-# fig = plt.figure(figsize=(8,6))
-# from matplotlib import gridspec
-# gs = gridspec.GridSpec(1, 2, height_ratios=[3, 1])
-# ax = plt.subplot(gs[0], sharex=True)
-# ax0.plot(x, y)
-# ax2 = plt.subplot(gs[1], sharex=True)
-# ax = fig.add_subplot(1,1,1)
-#ax.set_yscale('log')                                   
-# major_ticks = np.arange(0, 25, 5)
-# minor_ticks = np.arange(0, 25, 1)
-                                          
-# ax.set_yticks(major_ticks)
-# ax.set_yticks(minor_ticks, minor=True)
 ax.set_ylim([0.0001,10])
 ax.set_xlim([0, 0.74048])
 ax.set_yscale( "log" )
-# plt.grid()
-# plt.plot(xs, ys/(101325), color = 'b', linewidth=1.5, alpha = 0.5)
-
-# ys = np.array([get_pressure(x, 0.300/2*1000) for x in xs])
-# plt.plot(xs, ys/(101325), color = 'b', linewidth=3.5, alpha = 0.9)
-
 y1s = np.array([get_pressure(x, 0.320/2*1000) for x in xs])
 y2s = np.array([get_pressure(x, 0.280/2*1000) for x in xs])
 ax.fill_between(xs, y1s/(101325), y2s/(101325), color = 'b', alpha = 0.5, label='renorm')
-
-# y_all = np.array([get_pressure_all_counterions(x, 1) for x in xs])
-# y2s = np.array([get_pressure(x, 0.280/2*1000, renorm_osmotic=False) for x in xs])
-# ax.plot(xs, y_all/(101325), color = 'green', alpha = 0.5, label='all_counterions')
-
-# plt.legend()
-
-
-# ys = np.array([get_pressure_all_counterions(x, 0.315/2*1000) for x in xs])
-# plt.plot(xs, ys/(101325), color = 'g', linewidth=3.5, alpha = 1)
 ax.set_ylabel('Osmotic pressure across\nthe lysosome membrane, atm')
 plt.xlabel('Volume fraction of AuNPs ($\chi_{TMA}/\chi_{MUA}=80:20$)')
 ax.axhline(dashes=[3,3], y=1.4, color='grey')
 ax.axhline(dashes=[1,3], y=0.003, color='grey')
-
 ht8020_6 = np.loadtxt('HT8020_6h.txt')
 ht8020_24 = np.loadtxt('HT8020_24h.txt')
 mda8020_24 = np.loadtxt('MDA8020_24h.txt')
 medians = [np.median(x) for x in [mda8020_24, ht8020_24, ht8020_6]]
 y_medians = np.array([get_pressure(x, 0.300/2*1000) for x in medians])
 ax.plot(medians, y_medians/(101325), 'o', color='purple', alpha=0.6)
-
 bp = ax2.boxplot([mda8020_24, ht8020_24, ht8020_6],
                  0, 'rs', 0, whis='range', patch_artist=True,
                  widths=0.6)
@@ -159,11 +120,6 @@ ax2.plot(ht8020_24, np.random.normal(2, 0.1, size=len(ht8020_24)),
 ax2.plot(ht8020_6, np.random.normal(3, 0.1, size=len(ht8020_6)),
          '.', color='darkcyan',
          alpha=0.7)
-# ax2.set_yticks([])
-# ax2.set_yticklabels(['HT, t=6h',
-#                      'HT, t=24h',
-#                      'MDA, t=24h'])
-
 for x in bp['boxes']:
     x.set_facecolor('grey')
     x.set_alpha(0.5)
@@ -174,7 +130,6 @@ ax2.plot([0.17, 0.58], [y0, y0], '|', markersize=10, color='darkorange')
 ax2.plot([0.17, 0.58], [y0, y0], color='darkorange')
 ax2.plot([0.02], [-1], 'D', markersize=6)
 ax2.set_ylim([-1.6,3.6])
-# ax2.boxplot(ht8020_6[:], 0, 'rs', 0)
 plt.tight_layout()
 fig.savefig('osmotic.png', dpi=300)
 fig.savefig('osmotic.eps', dpi=300)
