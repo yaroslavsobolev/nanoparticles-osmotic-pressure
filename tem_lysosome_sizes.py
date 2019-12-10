@@ -10,11 +10,6 @@ ht = load_file('data/HT8020_24h.txt')
 mda = load_file('data/MDA8020_24h.txt')
 mef = load_file('data/MEF8020_24h.txt')
 
-# nrows = ht8020_6.shape[0]
-# diameters = np.sqrt(ht8020_6[:,0]/np.pi)*2
-# plt.scatter([1]*nrows, diameters)
-# print(np.mean(diameters)/(np.pi/4))
-# plt.show()
 def func(x):
     return np.sqrt(x[:,0]/np.pi)*2/1000
 
@@ -45,8 +40,3 @@ ax2.set_ylabel('Corrected diameter of lysosome, μm')
 plt.tight_layout()
 fig.savefig('tem_effective_diameters.png', dpi=600)
 plt.show()
-# ht8020_6 = np.genfromtxt('data/HT8020_6h.txt', skip_header=3, delimiter='\t', dtype=None)
-# ht8020_6 = np.loadtxt('data/HT8020_6h.txt',
-#    dtype={'names': ('sepal length', 'sepal width', 'petal length', 'petal width', 'label', 'ratio'),
-#           'formats': ('str', np.float, np.float, np.float, np.float, np.float)},
-#    delimiter='\t', skiprows=3)

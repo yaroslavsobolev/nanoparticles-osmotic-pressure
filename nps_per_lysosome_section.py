@@ -10,14 +10,7 @@ ht = load_file('data/HT8020_24h.txt')
 mda = load_file('data/MDA8020_24h.txt')
 mef = load_file('data/MEF8020_24h.txt')
 
-# nrows = ht8020_6.shape[0]
-# diameters = np.sqrt(ht8020_6[:,0]/np.pi)*2
-# plt.scatter([1]*nrows, diameters)
-# print(np.mean(diameters)/(np.pi/4))
-# plt.show()
 def func(x):
-    # volfrac_of_close_packing = 0.74048
-    # corrected_radius = 4 / np.pi * np.sqrt(x[:, 0] / np.pi)
     section_volume = x[:, 0]*80
     volfrac = x[:, -1]
     np_rad = 8.3/2 # in nm
@@ -50,7 +43,6 @@ plt.ylabel('NPs per lysosome section, $10^3$')
 ax.set_xticklabels(['HT', 'MDA', 'MEF'])
 plt.tight_layout()
 fig.savefig('np_per_lyso_section.png', dpi=600)
-# fig.savefig('np_per_lyso.eps')
 
 fig2,ax = plt.subplots(1, figsize=(1.8,4))
 bp = plt.boxplot([func(x) for x in [ht, mef]],
@@ -74,10 +66,4 @@ plt.ylabel('NPs per lysosome section, $10^3$')
 ax.set_xticklabels(['HT', 'MEF'])
 plt.tight_layout()
 fig2.savefig('np_per_lyso_ht_mef_section.png', dpi=600)
-# fig2.savefig('np_per_lyso_ht_mef.eps')
 plt.show()
-# ht8020_6 = np.genfromtxt('data/HT8020_6h.txt', skip_header=3, delimiter='\t', dtype=None)
-# ht8020_6 = np.loadtxt('data/HT8020_6h.txt',
-#    dtype={'names': ('sepal length', 'sepal width', 'petal length', 'petal width', 'label', 'ratio'),
-#           'formats': ('str', np.float, np.float, np.float, np.float, np.float)},
-#    delimiter='\t', skiprows=3)

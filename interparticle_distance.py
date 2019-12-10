@@ -6,20 +6,6 @@ from lmfit.models import LorentzianModel
 
 mod = LorentzianModel()
 
-# data = np.loadtxt('particles_distance.csv', skiprows=1, delimiter=',')
-# print(1)
-# d = data[:, [-1, -2]]
-# from sklearn.metrics import pairwise_distances
-# dists = pairwise_distances(d)
-# print(1)
-# dists = dists.flatten()
-# dists = dists[dists > 0]
-# plt.hist(dists, bins=200)
-# plt.show()
-# dists = dists[dists<10]
-# print(np.mean(dists))
-# print(np.std(dists))
-
 image = skimage.io.imread('data/MEF_80_20_24h_0005__for_dist.jpg')
 nm_per_px = 200/890 #nanopeters per pixel in this image
 
@@ -30,25 +16,9 @@ def get_proj_at_angle(angle):
     hsize = 140
     w0 = int(round(dims[0]/2))+80
     h0 = int(round(dims[1]/2))-30
-    # fig1 = plt.figure(1)
     image3 = image2[w0-wsize:w0+wsize, h0-hsize:h0+hsize, :]
-    # plt.imshow(image3)
-    # fig2 = plt.figure(2)
     projection = np.mean(image3, axis=1)[:,0]
     return projection
-
-# find angle that gives the highest contrast after averaging over the horizontal axis
-# angle0 = 37.3
-# angles = np.linspace(angle0-1, angle0+1, 60)
-# contrasts = []
-# for angle in angles:
-#     projection = get_proj_at_angle(angle)
-#     projection = projection - np.mean(projection)
-#     contrasts.append(np.max(np.abs(projection)))
-# plt.plot(angles, contrasts)
-# maxcontr = np.argmax(contrasts)
-# good_angle = angles[maxcontr]
-# print(good_angle)
 
 good_angle = 37.3169
 projection = get_proj_at_angle(good_angle)
@@ -57,13 +27,10 @@ plt.show()
 fig0 = plt.figure(0)
 plt.plot(np.linspace(0, projection.shape[0]*nm_per_px, projection.shape[0]), projection)
 
-
 # Number of samplepoints
 N = projection.shape[0]
 # sample spacing
 T = nm_per_px
-# x = np.linspace(0.0, N*T, N)
-# y = np.sin(50.0 * 2.0*np.pi*x) + 0.5*np.sin(80.0 * 2.0*np.pi*x)
 y = projection
 yf = scipy.fftpack.fft(y)
 xf = np.linspace(0.0, 1.0/(2.0*T), N/2)
