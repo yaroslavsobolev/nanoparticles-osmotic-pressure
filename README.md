@@ -1,4 +1,5 @@
 # Osmotic pressure in cancer lysosomes
+[![DOI](https://zenodo.org/badge/157850322.svg)](https://zenodo.org/badge/latestdoi/157850322)
 Calculations of osmotic pressure due to presence of charged nanoparticles in lysosomes of cancer cells
 
 This code was developed and used for a research project described in a paper "Targeted crystallization of mixed-charge 
