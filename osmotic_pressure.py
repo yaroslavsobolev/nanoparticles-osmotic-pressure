@@ -134,7 +134,3 @@ plt.tight_layout()
 fig.savefig('osmotic.png', dpi=300)
 fig.savefig('osmotic.eps', dpi=300)
 plt.show()
-
-
-    
-    
