@@ -4,7 +4,7 @@
 Calculations of osmotic pressure due to presence of charged nanoparticles in lysosomes of cancer cells
 
 This code was developed and used for a research project described in a paper "Targeted crystallization of mixed-charge 
-nanoparticles in lysosomes induces selective death of cancer cells", *Nature*, 2020. See this paper and the
+nanoparticles in lysosomes induces selective death of cancer cells", *Nature Nanotechnology*, 2020. See this paper and the
 corresponding Supplementary Information .pdf file for description of how this calculation is done.
 
 ```osmotic_pressure.py``` script contains the osmotic pressure calculation routines.
